@@ -247,16 +247,124 @@ export default function ModuleDetail() {
     }
   };
 
-  const isCorrect = selectedOption === currentQuestion?.correctOption;
+  // Safe guards for undefined currentQuestion
+  const isCorrect = currentQuestion ? selectedOption === currentQuestion.correctOption : false;
+  
+  const getLearningObjectives = (title: string): string[] => {
+    // Default objectives if no specific ones are found
+    const defaultObjectives = [
+      "Master essential math concepts through interactive exercises",
+      "Apply mathematical thinking to solve real-world problems",
+      "Build confidence in approaching complex math topics",
+      "Develop critical thinking and analytical skills",
+      "Learn to communicate mathematical ideas effectively"
+    ];
+    
+    // Topic-specific learning objectives
+    const topicObjectives: Record<string, string[]> = {
+      "Fractions": [
+        "Understand the concept of fractions as parts of a whole",
+        "Identify equivalent fractions using visual models",
+        "Add and subtract fractions with the same denominators",
+        "Compare fractions using different strategies",
+        "Apply fraction concepts to solve real-world problems"
+      ],
+      "Decimals": [
+        "Convert between fractions and decimals accurately",
+        "Add, subtract, multiply, and divide decimal numbers",
+        "Round decimal numbers to specified place values",
+        "Compare and order decimal numbers",
+        "Solve word problems involving money and measurements"
+      ],
+      "Percentages": [
+        "Understand percentages as special decimals and fractions",
+        "Convert between percentages, decimals, and fractions",
+        "Calculate percentage increases and decreases",
+        "Solve real-world problems involving discounts, tips, and taxes",
+        "Analyze and interpret data represented as percentages"
+      ],
+      "Algebra": [
+        "Understand variables and algebraic expressions",
+        "Solve linear equations and inequalities",
+        "Interpret and create graphs of linear functions",
+        "Apply algebraic techniques to word problems",
+        "Use algebra to model real-world situations"
+      ],
+      "Geometry": [
+        "Identify and classify 2D and 3D geometric shapes",
+        "Calculate area, perimeter, and volume of common shapes",
+        "Understand and apply the properties of angles",
+        "Use coordinate geometry to solve problems",
+        "Apply geometric principles to practical situations"
+      ],
+      "Statistics": [
+        "Collect, organize, and interpret data effectively",
+        "Calculate and interpret measures of central tendency",
+        "Create and analyze various types of graphs",
+        "Understand probability concepts and calculate simple probabilities",
+        "Make predictions based on statistical data"
+      ],
+      "Ratios": [
+        "Understand ratios as relationships between quantities",
+        "Use ratio tables and double number lines",
+        "Solve problems involving proportional relationships",
+        "Apply ratios to scale drawings and maps",
+        "Connect ratios to fractions and percentages"
+      ],
+      "Square": [
+        "Understand the concept of square roots and perfect squares",
+        "Estimate the value of square roots of non-perfect squares",
+        "Use square roots in the Pythagorean theorem",
+        "Solve equations involving square roots",
+        "Apply square roots to real-world scenarios"
+      ]
+    };
+    
+    // Check if title contains any of the topic keywords
+    for (const topic in topicObjectives) {
+      if (title.toLowerCase().includes(topic.toLowerCase())) {
+        return topicObjectives[topic];
+      }
+    }
+    
+    return defaultObjectives;
+  };
+  
+  const getPrerequisites = (title: string): string => {
+    // Default prerequisites
+    const defaultPrerequisites = "Basic understanding of arithmetic operations (addition, subtraction, multiplication, division).";
+    
+    // Topic-specific prerequisites
+    const topicPrerequisites: Record<string, string> = {
+      "Fractions": "Understanding of whole numbers and basic division concepts.",
+      "Decimals": "Familiarity with place value and fractions.",
+      "Percentages": "Understanding of fractions and decimals; ability to multiply and divide.",
+      "Algebra": "Comfort with arithmetic operations and understanding of the equals sign as balance.",
+      "Geometry": "Basic understanding of shapes, angles, and measurement.",
+      "Statistics": "Ability to work with numbers and basic graphing skills.",
+      "Ratios": "Understanding of multiplication, division, and basic fractions.",
+      "Square": "Familiarity with multiplication, exponents, and basic algebra."
+    };
+    
+    // Check if title contains any of the topic keywords
+    for (const topic in topicPrerequisites) {
+      if (title.toLowerCase().includes(topic.toLowerCase())) {
+        return topicPrerequisites[topic];
+      }
+    }
+    
+    return defaultPrerequisites;
+  };
 
   const getFeedbackClasses = () => {
-    if (!showFeedback) return "hidden";
+    if (!showFeedback || !currentQuestion) return "hidden";
     return isCorrect
       ? "bg-green-100 dark:bg-green-900/30"
       : "bg-red-100 dark:bg-red-900/30";
   };
 
   const getFeedbackTextColor = () => {
+    if (!currentQuestion) return "";
     return isCorrect
       ? "text-green-800 dark:text-green-300"
       : "text-red-800 dark:text-red-300";
@@ -354,18 +462,16 @@ export default function ModuleDetail() {
                         What You'll Learn
                       </h3>
                       <ul className="list-disc list-inside space-y-2 text-neutral-dark dark:text-gray-300 mb-6">
-                        <li>Understand the concept of fractions as parts of a whole</li>
-                        <li>Identify equivalent fractions using visual models</li>
-                        <li>Add and subtract fractions with the same denominators</li>
-                        <li>Compare fractions using different strategies</li>
-                        <li>Apply fraction concepts to solve real-world problems</li>
+                        {getLearningObjectives(data.title).map((objective, index) => (
+                          <li key={index}>{objective}</li>
+                        ))}
                       </ul>
                       
                       <h3 className="text-xl font-heading font-bold mb-3 dark:text-white">
                         Prerequisites
                       </h3>
                       <p className="text-neutral-dark dark:text-gray-300">
-                        Basic understanding of whole numbers and division.
+                        {getPrerequisites(data.title)}
                       </p>
                     </CardContent>
                   </Card>
@@ -480,80 +586,105 @@ export default function ModuleDetail() {
                     Practice Quiz
                   </h2>
                   
-                  <div className="mb-4 flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">
-                      Question {currentQuestionIndex + 1} of {practiceQuestions.length}
-                    </span>
-                    <Progress 
-                      value={(currentQuestionIndex + 1) / practiceQuestions.length * 100} 
-                      className="w-1/2 h-2"
-                    />
-                  </div>
-                  
-                  <div className="mb-6">
-                    <h3 className="text-xl font-heading font-bold mb-4 dark:text-white">
-                      {currentQuestion.question}
-                    </h3>
-                    
-                    <div className="space-y-3 mb-6">
-                      {currentQuestion.options.map((option) => (
-                        <div
-                          key={option.id}
-                          className={`bg-white dark:bg-gray-800 p-3 rounded-lg border-2 ${
-                            selectedOption === option.id
-                              ? "border-primary"
-                              : "border-gray-200 dark:border-gray-600"
-                          } hover:border-primary cursor-pointer transition flex items-center`}
-                          onClick={() => handleOptionSelect(option.id)}
-                        >
-                          <div className="w-6 h-6 rounded-full border-2 border-gray-300 dark:border-gray-500 flex items-center justify-center mr-3">
+                  {practiceQuestions.length > 0 && currentQuestion ? (
+                    <>
+                      <div className="mb-4 flex justify-between items-center">
+                        <span className="text-sm text-muted-foreground">
+                          Question {currentQuestionIndex + 1} of {practiceQuestions.length}
+                        </span>
+                        <Progress 
+                          value={(currentQuestionIndex + 1) / practiceQuestions.length * 100} 
+                          className="w-1/2 h-2"
+                        />
+                      </div>
+                      
+                      <div className="mb-6">
+                        <h3 className="text-xl font-heading font-bold mb-4 dark:text-white">
+                          {currentQuestion.question}
+                        </h3>
+                        
+                        <div className="space-y-3 mb-6">
+                          {currentQuestion.options.map((option) => (
                             <div
-                              className={`w-4 h-4 rounded-full bg-primary ${
-                                selectedOption === option.id ? "" : "hidden"
-                              }`}
-                            ></div>
-                          </div>
-                          <span className="text-lg dark:text-white">{option.text}</span>
+                              key={option.id}
+                              className={`bg-white dark:bg-gray-800 p-3 rounded-lg border-2 ${
+                                selectedOption === option.id
+                                  ? "border-primary"
+                                  : "border-gray-200 dark:border-gray-600"
+                              } hover:border-primary cursor-pointer transition flex items-center`}
+                              onClick={() => handleOptionSelect(option.id)}
+                            >
+                              <div className="w-6 h-6 rounded-full border-2 border-gray-300 dark:border-gray-500 flex items-center justify-center mr-3">
+                                <div
+                                  className={`w-4 h-4 rounded-full bg-primary ${
+                                    selectedOption === option.id ? "" : "hidden"
+                                  }`}
+                                ></div>
+                              </div>
+                              <span className="text-lg dark:text-white">{option.text}</span>
+                            </div>
+                          ))}
                         </div>
-                      ))}
-                    </div>
-                    
-                    <div
-                      className={`mt-4 p-4 rounded-lg ${getFeedbackClasses()}`}
-                    >
-                      {showFeedback && (
-                        <>
-                          <p className={`font-semibold ${getFeedbackTextColor()}`}>
-                            {isCorrect ? "Correct!" : "Incorrect. Try again!"}
-                          </p>
-                          <p className="text-neutral-dark dark:text-gray-300 mt-2">
-                            {currentQuestion.explanation}
-                          </p>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  
-                  <div className="flex justify-between">
-                    {!showFeedback ? (
+                        
+                        <div
+                          className={`mt-4 p-4 rounded-lg ${getFeedbackClasses()}`}
+                        >
+                          {showFeedback && (
+                            <>
+                              <p className={`font-semibold ${getFeedbackTextColor()}`}>
+                                {isCorrect ? "Correct!" : "Incorrect. Try again!"}
+                              </p>
+                              <p className="text-neutral-dark dark:text-gray-300 mt-2">
+                                {currentQuestion.explanation}
+                              </p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div className="flex justify-between">
+                        {!showFeedback ? (
+                          <Button
+                            onClick={checkAnswer}
+                            disabled={!selectedOption}
+                            className="w-full md:w-auto"
+                          >
+                            Check Answer
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={nextQuestion}
+                            className="w-full md:w-auto"
+                          >
+                            {currentQuestionIndex < practiceQuestions.length - 1
+                              ? "Next Question"
+                              : "Finish Quiz"}
+                          </Button>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-center py-8">
+                      <img 
+                        src="https://img.freepik.com/free-vector/quiz-neon-sign_1262-19629.jpg?w=826&t=st=1704542110~exp=1704542710~hmac=be033b17dbb0a9987f2099e419842b6fe6829a0ffbbc8b2df2f3242b28c5ed68" 
+                        alt="Quiz Coming Soon"
+                        className="w-40 h-40 mx-auto mb-4 rounded-full object-cover"
+                      />
+                      <h3 className="text-xl font-heading font-bold mb-2 dark:text-white">
+                        Quiz Coming Soon
+                      </h3>
+                      <p className="text-neutral-dark dark:text-gray-300 mb-6">
+                        We're currently creating exciting practice questions for this module. 
+                        Check back soon for interactive quizzes to test your knowledge!
+                      </p>
                       <Button
-                        onClick={checkAnswer}
-                        disabled={!selectedOption}
-                        className="w-full md:w-auto"
+                        onClick={() => setActiveTab("overview")}
+                        className="bg-primary hover:bg-primary/90"
                       >
-                        Check Answer
+                        Back to Overview
                       </Button>
-                    ) : (
-                      <Button
-                        onClick={nextQuestion}
-                        className="w-full md:w-auto"
-                      >
-                        {currentQuestionIndex < practiceQuestions.length - 1
-                          ? "Next Question"
-                          : "Finish Quiz"}
-                      </Button>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
