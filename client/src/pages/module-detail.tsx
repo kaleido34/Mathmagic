@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Loader2, ArrowLeft, Play, Book, Gamepad, CheckCircle, XCircle, ChevronRight } from "lucide-react";
 import { formatFraction } from "@/lib/math-expressions";
 

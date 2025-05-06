@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Loader2 } from "lucide-react";
 
 interface Game {

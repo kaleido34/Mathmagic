@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { Loader2 } from "lucide-react";
 
 interface Module {
