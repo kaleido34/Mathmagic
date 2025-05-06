@@ -33,10 +33,23 @@ export default function Games() {
 
   const { data: games, isLoading } = useQuery<Game[]>({
     queryKey: [
-      "/api/games/all",
+      "/api/games",
       selectedGrade !== "all" ? `grade=${selectedGrade}` : "",
       selectedCategory !== "all" ? `category=${selectedCategory}` : "",
     ],
+  });
+
+  // Filter games client-side for proper filtering
+  const filteredGames = games?.filter(game => {
+    const gradeMatch = selectedGrade === "all" ? 
+      true : 
+      game.grade === parseInt(selectedGrade) || game.grade === "all";
+    
+    const categoryMatch = selectedCategory === "all" ? 
+      true : 
+      game.category.toLowerCase() === selectedCategory.toLowerCase();
+    
+    return gradeMatch && categoryMatch;
   });
 
   const categories = [
@@ -94,7 +107,7 @@ export default function Games() {
   };
 
   // Default games if API hasn't returned yet
-  const mathGames: Game[] = games || [
+  const defaultGames: Game[] = [
     {
       id: 1,
       title: "Fraction Match",
@@ -138,6 +151,9 @@ export default function Games() {
       isNew: true
     }
   ];
+  
+  // Use the filtered games if available, otherwise use default games
+  const mathGames = filteredGames || games || defaultGames;
 
   return (
     <>
@@ -204,7 +220,7 @@ export default function Games() {
             <div className="flex justify-center items-center py-20">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
-          ) : (
+          ) : mathGames && mathGames.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {mathGames.map((game) => (
                 <Card
@@ -248,12 +264,30 @@ export default function Games() {
                         </span>
                       )}
                     </div>
-                    <Button className="w-full">
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90"
+                      onClick={() => window.alert(`Coming soon: ${game.title} will be playable in a future update!`)}
+                    >
                       Play Now
                     </Button>
                   </div>
                 </Card>
               ))}
+            </div>
+          ) : (
+            <div className="bg-white dark:bg-gray-800 rounded-xl p-8 text-center">
+              <h3 className="text-xl font-heading font-bold mb-2 dark:text-white">
+                No games found
+              </h3>
+              <p className="text-neutral-dark dark:text-gray-300 mb-4">
+                Try selecting a different grade or category
+              </p>
+              <Button onClick={() => {
+                setSelectedGrade("all");
+                setSelectedCategory("all");
+              }}>
+                View All Games
+              </Button>
             </div>
           )}
         </div>

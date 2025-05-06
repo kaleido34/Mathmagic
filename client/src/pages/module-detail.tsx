@@ -202,12 +202,22 @@ export default function ModuleDetail() {
 
   const startActivity = (index: number) => {
     setCurrentActivityIndex(index);
-    if (data.activities[index].type === "quiz") {
-      setActiveTab("practice");
-      setCurrentQuestionIndex(0);
-      setShowFeedback(false);
-      setSelectedOption(null);
-      setUserAnswers({});
+    // Check if the activity at the specified index exists
+    if (data.activities && data.activities.length > index) {
+      const activity = data.activities[index];
+      if (activity.type === "quiz") {
+        setActiveTab("practice");
+        setCurrentQuestionIndex(0);
+        setShowFeedback(false);
+        setSelectedOption(null);
+        setUserAnswers({});
+      } else {
+        // For other activity types, just show an alert for now
+        window.alert(`Coming soon: ${activity.title} will be available in a future update!`);
+      }
+    } else {
+      // Handle the case where the activity doesn't exist
+      window.alert("This activity is not available yet. Check back soon!");
     }
   };
 
