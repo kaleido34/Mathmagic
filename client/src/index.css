@@ -4,63 +4,63 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --background: 0 0% 100%; /* #FFFFFF - White */
+    --foreground: 0 0% 0%; /* #000000 - Black */
     
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card: 0 0% 100%; /* #FFFFFF - White */
+    --card-foreground: 0 0% 0%; /* #000000 - Black */
  
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover: 0 0% 100%; /* #FFFFFF - White */
+    --popover-foreground: 0 0% 0%; /* #000000 - Black */
  
-    --primary: 275 100% 50%; /* Neon Purple */
+    --primary: 0 100% 41%; /* #D00000 - Red */
     --primary-foreground: 0 0% 100%;
  
-    --secondary: 140 100% 50%; /* Neon Green */
+    --secondary: 25 100% 61%; /* #F39237 - Orange */
     --secondary-foreground: 0 0% 0%;
  
-    --muted: 210 40% 96.1%;
+    --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
  
-    --accent: 210 100% 50%; /* Neon Blue */
+    --accent: 0 0% 46%; /* #747572 - Gray */
     --accent-foreground: 0 0% 100%;
  
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 275 100% 50%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 0 100% 41%;
  
     --radius: 0.5rem;
 
-    --chart-1: 275 100% 50%; /* Purple */
-    --chart-2: 140 100% 50%; /* Green */
-    --chart-3: 210 100% 50%; /* Blue */
-    --chart-4: 330 100% 50%; /* Pink */
-    --chart-5: 40 100% 50%;  /* Yellow */
+    --chart-1: 0 100% 41%; /* Red */
+    --chart-2: 25 100% 61%; /* Orange */
+    --chart-3: 0 0% 46%; /* Gray */
+    --chart-4: 0 0% 100%; /* White */
+    --chart-5: 0 0% 0%; /* Black */
   }
  
   .dark {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 0%; /* #000000 - Black */
+    --foreground: 0 0% 98%; /* #FFFFFF - White */
  
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 10%; /* Near black */
+    --card-foreground: 0 0% 98%; 
  
-    --popover: 0 0% 7%;
+    --popover: 0 0% 0%;
     --popover-foreground: 0 0% 98%;
  
-    --primary: 275 100% 60%; /* Neon Purple */
+    --primary: 0 100% 41%; /* #D00000 - Red */
     --primary-foreground: 0 0% 100%;
  
-    --secondary: 140 100% 60%; /* Neon Green */
+    --secondary: 25 100% 61%; /* #F39237 - Orange */
     --secondary-foreground: 0 0% 0%;
  
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 65%;
  
-    --accent: 210 100% 60%; /* Neon Blue */
+    --accent: 0 0% 46%; /* #747572 - Gray */
     --accent-foreground: 0 0% 100%;
  
     --destructive: 0 62.8% 30.6%;
@@ -68,13 +68,13 @@
  
     --border: 0 0% 20%;
     --input: 0 0% 20%;
-    --ring: 275 100% 60%;
+    --ring: 0 100% 41%;
 
-    --chart-1: 275 100% 60%; /* Purple */
-    --chart-2: 140 100% 60%; /* Green */
-    --chart-3: 210 100% 60%; /* Blue */
-    --chart-4: 330 100% 60%; /* Pink */
-    --chart-5: 40 100% 60%;  /* Yellow */
+    --chart-1: 0 100% 41%; /* Red */
+    --chart-2: 25 100% 61%; /* Orange */
+    --chart-3: 0 0% 46%; /* Gray */
+    --chart-4: 0 0% 100%; /* White */
+    --chart-5: 0 0% 0%; /* Black */
   }
 }
 

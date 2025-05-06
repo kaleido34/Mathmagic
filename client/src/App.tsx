@@ -18,7 +18,7 @@ function Router() {
       <Route path="/topics" component={Topics} />
       <Route path="/games" component={Games} />
       <Route path="/progress" component={Progress} />
-      <Route path="/module/:slug" component={ModuleDetail} />
+      <Route path="/modules/:slug" component={ModuleDetail} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

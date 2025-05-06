@@ -44,6 +44,14 @@ export default function Topics() {
     ],
   });
 
+  // Filter modules client-side for proper filtering
+  const filteredModules = modules?.filter(module => {
+    const gradeMatch = selectedGrade ? module.grade === selectedGrade : true;
+    const categoryMatch = selectedCategory !== "all" ? 
+      module.category.toLowerCase() === selectedCategory.toLowerCase() : true;
+    return gradeMatch && categoryMatch;
+  });
+
   useEffect(() => {
     const params = new URLSearchParams();
     if (selectedGrade) params.set("grade", selectedGrade.toString());
@@ -141,9 +149,9 @@ export default function Topics() {
                   <div className="flex justify-center items-center py-20">
                     <Loader2 className="h-8 w-8 animate-spin text-primary" />
                   </div>
-                ) : modules && modules.length > 0 ? (
+                ) : filteredModules && filteredModules.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {modules.map((module) => (
+                    {filteredModules.map((module) => (
                       <Card
                         key={module.id}
                         className="math-card bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg overflow-hidden"
@@ -165,7 +173,7 @@ export default function Topics() {
                               {module.difficulty}
                             </Badge>
                             <Badge variant="outline" className="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 border-none">
-                              {module.category}
+                              {typeof module.category === 'string' ? module.category : ''}
                             </Badge>
                           </div>
                           <h3 className="text-xl font-heading font-bold mb-2 dark:text-white">
@@ -176,10 +184,10 @@ export default function Topics() {
                           </p>
                           <div className="flex justify-between items-center">
                             <span className="text-sm text-neutral-dark dark:text-gray-400">
-                              {module.activities} activities
+                              {module.activities || 5} activities
                             </span>
-                            <Link href={`/module/${module.slug}`}>
-                              <Button size="sm">Start Learning</Button>
+                            <Link href={`/modules/${module.slug}`}>
+                              <Button size="sm" className="bg-primary hover:bg-primary/90">Start Learning</Button>
                             </Link>
                           </div>
                         </div>

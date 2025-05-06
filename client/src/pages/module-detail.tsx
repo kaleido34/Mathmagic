@@ -280,10 +280,10 @@ export default function ModuleDetail() {
         <div className="container mx-auto px-4">
           <div className="mb-6">
             <Link href="/topics">
-              <a className="flex items-center text-primary hover:underline mb-4">
+              <span className="flex items-center text-primary hover:underline mb-4 cursor-pointer">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Topics
-              </a>
+              </span>
             </Link>
             
             <div className="flex flex-wrap gap-2 mb-2">
@@ -297,7 +297,7 @@ export default function ModuleDetail() {
                 {data.difficulty}
               </Badge>
               <Badge variant="outline" className="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 border-none">
-                {data.category}
+                {typeof data.category === 'string' ? data.category : ''}
               </Badge>
             </div>
             
