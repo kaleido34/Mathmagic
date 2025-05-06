@@ -9,6 +9,8 @@ import Topics from "@/pages/topics";
 import Games from "@/pages/games";
 import Progress from "@/pages/progress";
 import ModuleDetail from "@/pages/module-detail";
+import MemoryGame from "@/pages/games/memory";
+import CrosswordGame from "@/pages/games/crossword";
 import { Helmet } from "react-helmet-async";
 
 function Router() {
@@ -17,6 +19,8 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/topics" component={Topics} />
       <Route path="/games" component={Games} />
+      <Route path="/games/memory/:title?" component={MemoryGame} />
+      <Route path="/games/crossword/:title?" component={CrosswordGame} />
       <Route path="/progress" component={Progress} />
       <Route path="/modules/:slug" component={ModuleDetail} />
       {/* Fallback to 404 */}

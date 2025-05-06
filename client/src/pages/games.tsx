@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Card } from "@/components/ui/card";
@@ -28,6 +29,7 @@ interface Game {
 }
 
 export default function Games() {
+  const [, setLocation] = useLocation();
   const [selectedGrade, setSelectedGrade] = useState<string>("all");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
@@ -266,7 +268,25 @@ export default function Games() {
                     </div>
                     <Button 
                       className="w-full bg-primary hover:bg-primary/90"
-                      onClick={() => window.alert(`Coming soon: ${game.title} will be playable in a future update!`)}
+                      onClick={() => {
+                        // Different handling for different games
+                        if (game.title.toLowerCase().includes("fraction")) {
+                          // Launch memory game with fraction focus
+                          setLocation(`/games/memory/${encodeURIComponent(game.title)}`);
+                        } else if (game.category.toLowerCase() === "geometry") {
+                          // Launch crossword with geometry focus
+                          setLocation(`/games/crossword/${encodeURIComponent("Geometry Crossword")}`);
+                        } else if (game.category.toLowerCase() === "algebra") {
+                          // Launch crossword with algebra focus
+                          setLocation(`/games/crossword/${encodeURIComponent("Algebra Crossword")}`);
+                        } else if (game.category.toLowerCase() === "arithmetic") {
+                          // Launch memory game with generic focus
+                          setLocation("/games/memory");
+                        } else {
+                          // Generic fallback
+                          setLocation("/games/memory");
+                        }
+                      }}
                     >
                       Play Now
                     </Button>

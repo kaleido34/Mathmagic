@@ -212,8 +212,8 @@ export default function ModuleDetail() {
         setSelectedOption(null);
         setUserAnswers({});
       } else {
-        // For other activity types, just show an alert for now
-        window.alert(`Coming soon: ${activity.title} will be available in a future update!`);
+        // For other activity types, provide more interactive content
+        getActivityContent(activity);
       }
     } else {
       // Handle the case where the activity doesn't exist
@@ -354,6 +354,371 @@ export default function ModuleDetail() {
     }
     
     return defaultPrerequisites;
+  };
+  
+  const getActivityContent = (activity: Activity) => {
+    // Display different content based on activity type and title
+    if (activity.type === "lesson") {
+      // Show interactive lesson with diagrams, explanations, and examples
+      const lessonContent = `
+        <div class="lesson-content">
+          <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">${activity.title}</h3>
+          <p style="margin-bottom: 1rem;">${activity.description}</p>
+          <div class="lesson-example" style="margin-bottom: 1.5rem; padding: 1rem; background-color: #f3f4f6; border-radius: 0.5rem;">
+            <h4 style="font-weight: bold; margin-bottom: 0.5rem;">Example:</h4>
+            <p>${getExampleContent(activity.title)}</p>
+          </div>
+          <div class="lesson-explanation" style="margin-bottom: 1.5rem;">
+            <h4 style="font-weight: bold; margin-bottom: 0.5rem;">Key Concepts:</h4>
+            <ul style="list-style-type: disc; padding-left: 1.5rem;">
+              ${getKeyConcepts(activity.title).map(concept => `<li style="margin-bottom: 0.5rem;">${concept}</li>`).join('')}
+            </ul>
+          </div>
+          <button id="next-lesson-btn" style="background-color: #4f46e5; color: white; padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer;">Continue</button>
+        </div>
+      `;
+      
+      // Create a modal to display the lesson
+      const modal = document.createElement("div");
+      modal.style.position = "fixed";
+      modal.style.top = "0";
+      modal.style.left = "0";
+      modal.style.width = "100%";
+      modal.style.height = "100%";
+      modal.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
+      modal.style.display = "flex";
+      modal.style.justifyContent = "center";
+      modal.style.alignItems = "center";
+      modal.style.zIndex = "1000";
+      
+      const modalContent = document.createElement("div");
+      modalContent.style.backgroundColor = "white";
+      modalContent.style.borderRadius = "0.5rem";
+      modalContent.style.padding = "1.5rem";
+      modalContent.style.width = "90%";
+      modalContent.style.maxWidth = "800px";
+      modalContent.style.maxHeight = "90vh";
+      modalContent.style.overflowY = "auto";
+      modalContent.innerHTML = lessonContent;
+      
+      modal.appendChild(modalContent);
+      document.body.appendChild(modal);
+      
+      // Add event listener to close the modal
+      const nextButton = document.getElementById("next-lesson-btn");
+      if (nextButton) {
+        nextButton.addEventListener("click", () => {
+          document.body.removeChild(modal);
+        });
+      }
+      
+    } else if (activity.type === "exercise") {
+      // Show interactive exercise with problems to solve
+      let exerciseContent = `
+        <div class="exercise-content">
+          <h3 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 1rem;">${activity.title}</h3>
+          <p style="margin-bottom: 1.5rem;">${activity.description}</p>
+          <div class="exercise-problems">
+      `;
+      
+      // Generate problems based on activity title
+      const problems = getExerciseProblems(activity.title);
+      problems.forEach((problem, index) => {
+        exerciseContent += `
+          <div class="problem" style="margin-bottom: 1.5rem; padding: 1rem; background-color: #f3f4f6; border-radius: 0.5rem;">
+            <h4 style="font-weight: bold; margin-bottom: 0.5rem;">Problem ${index + 1}:</h4>
+            <p style="margin-bottom: 1rem;">${problem.question}</p>
+            <div class="options" style="margin-bottom: 1rem;">
+              ${problem.options.map(option => `
+                <div class="option" style="margin-bottom: 0.5rem;">
+                  <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="radio" name="problem-${index}" value="${option}" style="margin-right: 0.5rem;">
+                    <span>${option}</span>
+                  </label>
+                </div>
+              `).join('')}
+            </div>
+            <button class="check-answer-btn" data-problem="${index}" data-answer="${problem.answer}" style="background-color: #4f46e5; color: white; padding: 0.25rem 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; cursor: pointer;">Check Answer</button>
+            <div class="feedback" id="feedback-${index}" style="margin-top: 0.5rem; font-weight: 500; display: none;"></div>
+          </div>
+        `;
+      });
+      
+      exerciseContent += `
+        </div>
+        <button id="finish-exercise-btn" style="background-color: #4f46e5; color: white; padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer;">Finish Exercise</button>
+      </div>
+      `;
+      
+      // Create a modal to display the exercise
+      const modal = document.createElement("div");
+      modal.style.position = "fixed";
+      modal.style.top = "0";
+      modal.style.left = "0";
+      modal.style.width = "100%";
+      modal.style.height = "100%";
+      modal.style.backgroundColor = "rgba(0, 0, 0, 0.75)";
+      modal.style.display = "flex";
+      modal.style.justifyContent = "center";
+      modal.style.alignItems = "center";
+      modal.style.zIndex = "1000";
+      
+      const modalContent = document.createElement("div");
+      modalContent.style.backgroundColor = "white";
+      modalContent.style.borderRadius = "0.5rem";
+      modalContent.style.padding = "1.5rem";
+      modalContent.style.width = "90%";
+      modalContent.style.maxWidth = "800px";
+      modalContent.style.maxHeight = "90vh";
+      modalContent.style.overflowY = "auto";
+      modalContent.innerHTML = exerciseContent;
+      
+      modal.appendChild(modalContent);
+      document.body.appendChild(modal);
+      
+      // Add event listeners for checking answers
+      const checkButtons = document.querySelectorAll(".check-answer-btn");
+      checkButtons.forEach(button => {
+        const btn = button as HTMLButtonElement;
+        btn.addEventListener("click", () => {
+          const problemIndex = btn.getAttribute("data-problem");
+          const correctAnswer = btn.getAttribute("data-answer");
+          const selectedOption = document.querySelector(`input[name="problem-${problemIndex}"]:checked`) as HTMLInputElement;
+          const feedback = document.getElementById(`feedback-${problemIndex}`);
+          
+          if (feedback) {
+            if (selectedOption && selectedOption.value === correctAnswer) {
+              feedback.textContent = "Correct! Well done.";
+              feedback.style.color = "#059669"; // green
+            } else {
+              feedback.textContent = "Incorrect. Try again.";
+              feedback.style.color = "#dc2626"; // red
+            }
+            feedback.style.display = "block";
+          }
+        });
+      });
+      
+      // Add event listener to close the modal
+      const finishButton = document.getElementById("finish-exercise-btn");
+      if (finishButton) {
+        finishButton.addEventListener("click", () => {
+          document.body.removeChild(modal);
+        });
+      }
+      
+    } else if (activity.type === "game") {
+      // Open the game in a new route
+      const gameType = getGameType(activity.title);
+      if (gameType) {
+        window.location.href = `/games/${gameType}?title=${encodeURIComponent(activity.title)}`;
+      } else {
+        window.alert(`Coming soon: ${activity.title} will be available in a future update!`);
+      }
+    } else {
+      // For other activity types, show an alert
+      window.alert(`Coming soon: ${activity.title} will be available in a future update!`);
+    }
+  };
+  
+  const getExampleContent = (title: string): string => {
+    // Return example content based on activity title
+    if (title.toLowerCase().includes("fraction")) {
+      return `
+        <p>To add fractions with the same denominator, add the numerators while keeping the denominator the same.</p>
+        <div style="display: flex; align-items: center; margin: 1rem 0;">
+          <div style="text-align: center; margin-right: 1rem;">
+            <div style="border-bottom: 2px solid black; padding-bottom: 0.25rem;">3</div>
+            <div>8</div>
+          </div>
+          <span style="margin-right: 1rem;">+</span>
+          <div style="text-align: center; margin-right: 1rem;">
+            <div style="border-bottom: 2px solid black; padding-bottom: 0.25rem;">2</div>
+            <div>8</div>
+          </div>
+          <span style="margin-right: 1rem;">=</span>
+          <div style="text-align: center;">
+            <div style="border-bottom: 2px solid black; padding-bottom: 0.25rem;">5</div>
+            <div>8</div>
+          </div>
+        </div>
+      `;
+    } else if (title.toLowerCase().includes("decimal")) {
+      return `
+        <p>When adding decimals, line up the decimal points and add the numbers column by column.</p>
+        <div style="font-family: monospace; white-space: pre; margin: 1rem 0;">
+          &nbsp;12.45<br>
+          +&nbsp;7.83<br>
+          ------<br>
+          &nbsp;20.28
+        </div>
+      `;
+    } else if (title.toLowerCase().includes("algebra")) {
+      return `
+        <p>To solve a simple equation like 2x + 3 = 9, isolate the variable x by doing the same operations to both sides.</p>
+        <div style="margin: 1rem 0;">
+          2x + 3 = 9<br>
+          2x = 6 (subtract 3 from both sides)<br>
+          x = 3 (divide both sides by 2)
+        </div>
+      `;
+    } else if (title.toLowerCase().includes("geometry")) {
+      return `
+        <p>To find the area of a rectangle, multiply its length by its width.</p>
+        <div style="margin: 1rem 0;">
+          <p>For a rectangle with length 8 cm and width 5 cm:</p>
+          <p>Area = length × width = 8 cm × 5 cm = 40 cm²</p>
+        </div>
+      `;
+    }
+    
+    return "Examples and explanations will be provided for this activity.";
+  };
+  
+  const getKeyConcepts = (title: string): string[] => {
+    // Return key concepts based on activity title
+    if (title.toLowerCase().includes("fraction")) {
+      return [
+        "A fraction represents a part of a whole",
+        "The numerator (top number) tells how many parts we have",
+        "The denominator (bottom number) tells the total number of equal parts the whole is divided into",
+        "Equivalent fractions represent the same value but use different numbers"
+      ];
+    } else if (title.toLowerCase().includes("decimal")) {
+      return [
+        "Decimals are another way to represent fractions with denominators of 10, 100, 1000, etc.",
+        "The decimal point separates the whole number part from the fractional part",
+        "Each place to the right of the decimal point has a specific value (tenths, hundredths, etc.)",
+        "Decimals can be ordered by comparing digits from left to right"
+      ];
+    } else if (title.toLowerCase().includes("algebra")) {
+      return [
+        "Variables are symbols (usually letters) that represent unknown values",
+        "Expressions combine numbers, variables, and operations",
+        "Equations state that two expressions are equal",
+        "Solving an equation means finding the value of the variable that makes the equation true"
+      ];
+    } else if (title.toLowerCase().includes("geometry")) {
+      return [
+        "Geometry studies the properties and relationships of points, lines, angles, and shapes",
+        "Perimeter is the distance around a shape",
+        "Area is the amount of space inside a 2D shape",
+        "Volume is the amount of space inside a 3D shape"
+      ];
+    }
+    
+    return [
+      "This activity will cover important mathematical concepts",
+      "You'll learn key skills and strategies for problem-solving",
+      "Practice exercises will help reinforce your understanding",
+      "Real-world applications will show how these concepts are used"
+    ];
+  };
+  
+  const getExerciseProblems = (title: string): {question: string, options: string[], answer: string}[] => {
+    // Return exercise problems based on activity title
+    if (title.toLowerCase().includes("fraction")) {
+      return [
+        {
+          question: "What is 3/8 + 2/8?",
+          options: ["1/8", "5/8", "5/16", "6/16"],
+          answer: "5/8"
+        },
+        {
+          question: "Which fraction is equivalent to 1/2?",
+          options: ["1/4", "2/6", "3/6", "5/8"],
+          answer: "3/6"
+        },
+        {
+          question: "What is 5/6 - 1/6?",
+          options: ["4/6", "4/12", "2/3", "6/5"],
+          answer: "4/6"
+        }
+      ];
+    } else if (title.toLowerCase().includes("decimal")) {
+      return [
+        {
+          question: "What is 3.75 + 2.25?",
+          options: ["5.00", "6.00", "5.90", "6.10"],
+          answer: "6.00"
+        },
+        {
+          question: "Which decimal is equal to 3/4?",
+          options: ["0.25", "0.5", "0.75", "0.80"],
+          answer: "0.75"
+        },
+        {
+          question: "What is 5.8 - 3.2?",
+          options: ["2.4", "2.6", "3.6", "2.8"],
+          answer: "2.6"
+        }
+      ];
+    } else if (title.toLowerCase().includes("algebra")) {
+      return [
+        {
+          question: "Solve for x: 3x - 5 = 10",
+          options: ["3", "5", "4", "15"],
+          answer: "5"
+        },
+        {
+          question: "If 2y + 3 = 9, what is y?",
+          options: ["2", "3", "6", "12"],
+          answer: "3"
+        },
+        {
+          question: "Solve: 5x = 25",
+          options: ["5", "20", "0", "125"],
+          answer: "5"
+        }
+      ];
+    } else if (title.toLowerCase().includes("geometry")) {
+      return [
+        {
+          question: "What is the area of a rectangle with length 8 m and width 6 m?",
+          options: ["14 m²", "28 m²", "48 m²", "64 m²"],
+          answer: "48 m²"
+        },
+        {
+          question: "What is the perimeter of a square with sides of length 5 cm?",
+          options: ["10 cm", "15 cm", "20 cm", "25 cm"],
+          answer: "20 cm"
+        },
+        {
+          question: "A triangle has a base of 8 cm and a height of 6 cm. What is its area?",
+          options: ["14 cm²", "24 cm²", "48 cm²", "16 cm²"],
+          answer: "24 cm²"
+        }
+      ];
+    }
+    
+    return [
+      {
+        question: "Solve the problem: 25 + 18",
+        options: ["33", "43", "53", "63"],
+        answer: "43"
+      },
+      {
+        question: "What is 72 ÷ 9?",
+        options: ["6", "7", "8", "9"],
+        answer: "8"
+      },
+      {
+        question: "Calculate: 13 × 4",
+        options: ["52", "56", "48", "64"],
+        answer: "52"
+      }
+    ];
+  };
+  
+  const getGameType = (title: string): string | null => {
+    if (title.toLowerCase().includes("match")) {
+      return "memory";
+    } else if (title.toLowerCase().includes("crossword")) {
+      return "crossword";
+    } else if (title.toLowerCase().includes("puzzle")) {
+      return "puzzle";
+    }
+    return null;
   };
 
   const getFeedbackClasses = () => {
