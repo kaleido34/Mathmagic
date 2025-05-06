@@ -113,10 +113,8 @@ export function MathGames() {
           <h2 className="text-3xl font-heading font-bold dark:text-white">
             Math Games
           </h2>
-          <Link href="/games">
-            <a className="text-primary font-semibold flex items-center hover:underline dark:text-primary">
-              View All <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
+          <Link href="/games" className="text-primary font-semibold flex items-center hover:underline dark:text-primary cursor-pointer">
+            View All <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </div>
 
@@ -152,13 +150,12 @@ export function MathGames() {
                   <span className={`text-xs ${getGradeTag(game.grade).color} px-2 py-1 rounded`}>
                     {getGradeTag(game.grade).text}
                   </span>
-                  <Link href={`/games/${game.slug}`}>
-                    <button
-                      className={`${getButtonColor(game.grade)} font-semibold px-3 py-1 rounded text-sm transition`}
-                    >
-                      Play Now
-                    </button>
-                  </Link>
+                  <button
+                    className={`${getButtonColor(game.grade)} font-semibold px-3 py-1 rounded text-sm transition cursor-pointer`}
+                    onClick={() => window.alert(`Coming soon: ${game.title} will be playable in a future update!`)}
+                  >
+                    Play Now
+                  </button>
                 </div>
               </div>
             </Card>

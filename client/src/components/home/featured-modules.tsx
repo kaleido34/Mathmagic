@@ -100,10 +100,8 @@ export function FeaturedModules() {
           <h2 className="text-3xl font-heading font-bold dark:text-white">
             Featured Modules
           </h2>
-          <Link href="/topics">
-            <a className="text-primary font-semibold flex items-center hover:underline">
-              View All <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
+          <Link href="/topics" className="text-primary font-semibold flex items-center hover:underline cursor-pointer">
+            View All <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </div>
 
@@ -141,7 +139,7 @@ export function FeaturedModules() {
                   <span className="text-sm text-neutral-dark dark:text-gray-300">
                     {module.activities} activities
                   </span>
-                  <Link href={`/module/${module.slug}`}>
+                  <Link href={`/modules/${module.slug}`}>
                     <Button
                       className={`${getButtonColor(module.grade)} text-white`}
                       size="sm"
