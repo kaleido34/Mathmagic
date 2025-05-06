@@ -88,6 +88,7 @@ async function seed() {
     // Insert modules
     console.log("Seeding modules...");
     const modules = [
+      // Original modules
       {
         title: "Fractions Made Fun",
         description: "Learn how to add, subtract, and compare fractions using visual models.",
@@ -136,6 +137,142 @@ async function seed() {
         categoryId: categoryMap["statistics"],
         difficulty: "Medium",
         slug: "statistics-simplified",
+        isFeatured: false
+      },
+      
+      // Grade 6 New Modules
+      {
+        title: "Understanding Elementary Shapes",
+        description: "Learn about points, lines, angles, triangles, quadrilaterals, and circles.",
+        imageUrl: "https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 6,
+        categoryId: categoryMap["geometry"],
+        difficulty: "Easy",
+        slug: "understanding-elementary-shapes",
+        isFeatured: false
+      },
+      {
+        title: "Whole Numbers",
+        description: "Explore properties of whole numbers, the number line, and recognize patterns.",
+        imageUrl: "https://images.unsplash.com/photo-1569503841875-f0cafb34b059?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 6,
+        categoryId: categoryMap["arithmetic"],
+        difficulty: "Easy",
+        slug: "whole-numbers",
+        isFeatured: false
+      },
+      {
+        title: "Playing with Numbers",
+        description: "Learn about factors, multiples, prime numbers, and divisibility rules.",
+        imageUrl: "https://images.unsplash.com/photo-1544902632-6789dbfc5d23?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 6,
+        categoryId: categoryMap["arithmetic"],
+        difficulty: "Medium",
+        slug: "playing-with-numbers",
+        isFeatured: false
+      },
+      {
+        title: "Integers",
+        description: "Understand positive and negative numbers and learn addition and subtraction of integers.",
+        imageUrl: "https://images.unsplash.com/photo-1629754214995-3dadb65dce61?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 6,
+        categoryId: categoryMap["arithmetic"],
+        difficulty: "Medium",
+        slug: "integers-basics",
+        isFeatured: false
+      },
+      
+      // Grade 7 New Modules
+      {
+        title: "Fractions and Decimals",
+        description: "Understand operations with fractions and decimals and their applications.",
+        imageUrl: "https://images.unsplash.com/photo-1596495578065-6e0763fa1178?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 7,
+        categoryId: categoryMap["fractions"],
+        difficulty: "Medium",
+        slug: "fractions-and-decimals",
+        isFeatured: false
+      },
+      {
+        title: "Lines and Angles",
+        description: "Explore the relationships between lines, angles, and identify different types of angles.",
+        imageUrl: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 7,
+        categoryId: categoryMap["geometry"],
+        difficulty: "Medium",
+        slug: "lines-and-angles",
+        isFeatured: false
+      },
+      {
+        title: "The Triangle and Its Properties",
+        description: "Learn about triangles, their properties, and special triangles.",
+        imageUrl: "https://images.unsplash.com/photo-1591634616938-1dfa47a4e7e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 7,
+        categoryId: categoryMap["geometry"],
+        difficulty: "Medium",
+        slug: "triangle-properties",
+        isFeatured: false
+      },
+      {
+        title: "Simple Equations",
+        description: "Learn to solve linear equations and apply them to real-world problems.",
+        imageUrl: "https://images.unsplash.com/photo-1603791442342-d799f1b71dce?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 7,
+        categoryId: categoryMap["algebra"],
+        difficulty: "Medium",
+        slug: "simple-equations",
+        isFeatured: false
+      },
+      
+      // Grade 8 New Modules
+      {
+        title: "Rational Numbers",
+        description: "Understand properties and operations with rational numbers.",
+        imageUrl: "https://images.unsplash.com/photo-1594056129662-3d596d0143bd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 8,
+        categoryId: categoryMap["arithmetic"],
+        difficulty: "Medium",
+        slug: "rational-numbers",
+        isFeatured: false
+      },
+      {
+        title: "Linear Equations",
+        description: "Master linear equations with variables on both sides and solve word problems.",
+        imageUrl: "https://images.unsplash.com/photo-1635241161466-541f065683ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 8,
+        categoryId: categoryMap["algebra"],
+        difficulty: "Challenging",
+        slug: "linear-equations-one-variable",
+        isFeatured: false
+      },
+      {
+        title: "Understanding Quadrilaterals",
+        description: "Explore polygons, properties of quadrilaterals, and special parallelograms.",
+        imageUrl: "https://images.unsplash.com/photo-1518133835878-5a93cc3f89e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 8,
+        categoryId: categoryMap["geometry"],
+        difficulty: "Medium",
+        slug: "understanding-quadrilaterals",
+        isFeatured: false
+      },
+      {
+        title: "Data Handling",
+        description: "Organize and interpret data using grouping, charts, and probability.",
+        imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 8,
+        categoryId: categoryMap["statistics"],
+        difficulty: "Medium",
+        slug: "data-handling",
+        isFeatured: false
+      },
+      {
+        title: "Squares and Square Roots",
+        description: "Explore properties of squares, patterns, and methods to find square roots.",
+        imageUrl: "https://images.unsplash.com/photo-1535189043414-47a3c49a0bed?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+        grade: 8,
+        categoryId: categoryMap["algebra"],
+        difficulty: "Challenging",
+        slug: "squares-and-square-roots",
         isFeatured: false
       }
     ];
