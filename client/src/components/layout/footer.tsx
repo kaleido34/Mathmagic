@@ -8,31 +8,19 @@ import {
   Youtube,
   Mail,
   Phone, 
-  Send
+  Send,
+  BookOpen
 } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-neutral-dark text-white py-12">
+    <footer className="bg-black text-white py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center mb-4">
-              <div className="mr-3 text-white text-3xl">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z" />
-                  <path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9" />
-                  <path d="M12 3v6" />
-                </svg>
+              <div className="mr-3 text-primary text-3xl">
+                <BookOpen className="h-8 w-8" />
               </div>
               <h2 className="text-2xl font-heading font-extrabold">
                 Math<span className="text-secondary">Joy</span>
@@ -74,85 +62,75 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-heading font-bold mb-4 text-lg">Quick Links</h3>
+            <h3 className="font-heading font-bold mb-4 text-lg text-primary">Quick Links</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/">
-                  <a className="text-gray-300 hover:text-white transition">Home</a>
-                </Link>
-              </li>
-              <li>
-                <Link href="/about">
-                  <a className="text-gray-300 hover:text-white transition">About Us</a>
+                  <span className="text-gray-300 hover:text-secondary transition cursor-pointer">Home</span>
                 </Link>
               </li>
               <li>
                 <Link href="/topics">
-                  <a className="text-gray-300 hover:text-white transition">Curriculum</a>
+                  <span className="text-gray-300 hover:text-secondary transition cursor-pointer">Curriculum</span>
                 </Link>
               </li>
               <li>
                 <Link href="/games">
-                  <a className="text-gray-300 hover:text-white transition">Games</a>
+                  <span className="text-gray-300 hover:text-secondary transition cursor-pointer">Games</span>
                 </Link>
               </li>
               <li>
-                <Link href="/blog">
-                  <a className="text-gray-300 hover:text-white transition">Blog</a>
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact">
-                  <a className="text-gray-300 hover:text-white transition">Contact</a>
+                <Link href="/progress">
+                  <span className="text-gray-300 hover:text-secondary transition cursor-pointer">Progress</span>
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-heading font-bold mb-4 text-lg">Grade Topics</h3>
+            <h3 className="font-heading font-bold mb-4 text-lg text-primary">Grade Topics</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/topics?grade=6">
-                  <a className="text-gray-300 hover:text-white transition">Grade 6 Math</a>
+                  <span className="text-gray-300 hover:text-secondary transition cursor-pointer">Grade 6 Math</span>
                 </Link>
               </li>
               <li>
                 <Link href="/topics?grade=7">
-                  <a className="text-gray-300 hover:text-white transition">Grade 7 Math</a>
+                  <span className="text-gray-300 hover:text-secondary transition cursor-pointer">Grade 7 Math</span>
                 </Link>
               </li>
               <li>
                 <Link href="/topics?grade=8">
-                  <a className="text-gray-300 hover:text-white transition">Grade 8 Math</a>
+                  <span className="text-gray-300 hover:text-secondary transition cursor-pointer">Grade 8 Math</span>
                 </Link>
               </li>
               <li>
                 <Link href="/topics?category=algebra">
-                  <a className="text-gray-300 hover:text-white transition">Algebra Basics</a>
+                  <span className="text-gray-300 hover:text-secondary transition cursor-pointer">Algebra Basics</span>
                 </Link>
               </li>
               <li>
                 <Link href="/topics?category=geometry">
-                  <a className="text-gray-300 hover:text-white transition">Geometry Fundamentals</a>
+                  <span className="text-gray-300 hover:text-secondary transition cursor-pointer">Geometry Fundamentals</span>
                 </Link>
               </li>
               <li>
                 <Link href="/topics?category=statistics">
-                  <a className="text-gray-300 hover:text-white transition">Statistics & Probability</a>
+                  <span className="text-gray-300 hover:text-secondary transition cursor-pointer">Statistics & Probability</span>
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-heading font-bold mb-4 text-lg">Contact Us</h3>
+            <h3 className="font-heading font-bold mb-4 text-lg text-primary">Contact Us</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
                 <Mail className="mr-2 h-4 w-4 text-secondary" />
                 <a
                   href="mailto:hello@mathjoy.edu"
-                  className="text-gray-300 hover:text-white transition"
+                  className="text-gray-300 hover:text-secondary transition"
                 >
                   hello@mathjoy.edu
                 </a>
@@ -161,7 +139,7 @@ export function Footer() {
                 <Phone className="mr-2 h-4 w-4 text-secondary" />
                 <a
                   href="tel:+1234567890"
-                  className="text-gray-300 hover:text-white transition"
+                  className="text-gray-300 hover:text-secondary transition"
                 >
                   (123) 456-7890
                 </a>
@@ -173,10 +151,10 @@ export function Footer() {
                 <Input
                   type="email"
                   placeholder="Your email"
-                  className="rounded-r-none focus:ring-secondary text-neutral-dark"
+                  className="rounded-r-none text-black"
                 />
                 <Button
-                  className="bg-secondary hover:bg-secondary/90 rounded-l-none"
+                  className="bg-secondary hover:bg-secondary/90 text-black rounded-l-none"
                 >
                   <Send className="h-4 w-4" />
                   <span className="sr-only">Subscribe</span>
@@ -186,25 +164,25 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-600 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm mb-4 md:mb-0">
             © {new Date().getFullYear()} MathJoy. All rights reserved.
           </p>
           <div className="flex space-x-6">
             <Link href="/privacy">
-              <a className="text-gray-400 hover:text-white text-sm transition">
+              <span className="text-gray-400 hover:text-secondary text-sm transition cursor-pointer">
                 Privacy Policy
-              </a>
+              </span>
             </Link>
             <Link href="/terms">
-              <a className="text-gray-400 hover:text-white text-sm transition">
+              <span className="text-gray-400 hover:text-secondary text-sm transition cursor-pointer">
                 Terms of Service
-              </a>
+              </span>
             </Link>
             <Link href="/cookies">
-              <a className="text-gray-400 hover:text-white text-sm transition">
+              <span className="text-gray-400 hover:text-secondary text-sm transition cursor-pointer">
                 Cookie Policy
-              </a>
+              </span>
             </Link>
           </div>
         </div>
